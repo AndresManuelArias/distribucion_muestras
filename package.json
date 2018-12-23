@@ -1,0 +1,26 @@
+{
+  "name": "distribucion_muestras",
+  "version": "1.0.0",
+  "description": "Programa que permite crear grupos de muestras de una poblacion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "muestras",
+    "poblacion",
+    "generar",
+    "grupos"
+  ],
+  "author": "Andres Manuel Arias Ariza",
+  "license": "ISC",
+  "dependencies": {
+    "csvdata": "^1.4.0",
+    "data-forge": "^1.3.0",
+    "data-forge-fs": "^0.0.3",
+    "enum-permutate": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.18"
+  }
+}
