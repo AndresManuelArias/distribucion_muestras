@@ -1,11 +1,11 @@
 var conteo:number = 0;
-function combinaciones(array:any[],corte?:(dato:string|number)=> boolean){
+function combinaciones(array:any[],corte?:(dato:string|number,conteoRecursividad?:number)=> boolean){
    debugger;
    console.log(conteo++)
    let coleccion:any[] = [];
    for(let dato of array){
         debugger;
-        let continuar:boolean = typeof corte == "function"?corte(dato):true;
+        let continuar:boolean = typeof corte == "function"?corte(dato,conteo):true;
         if(continuar){
             if(array.length >1 ){
                 let nuevoArray:any[] = array.filter(dato2=>   dato2 !== dato  );            
@@ -19,7 +19,7 @@ function combinaciones(array:any[],corte?:(dato:string|number)=> boolean){
     }
     return coleccion;
 }
-export = combinaciones
+export  {combinaciones}
 combinaciones([1,2,3,4,5])
 // combinaciones([1,2,3,4,5]).filter((dato,index, array)=>{
 

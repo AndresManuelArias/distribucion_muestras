@@ -1,9 +1,11 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
 //@ts-check
-const estaditicas = require('./estadisticas.js');
-function generarJsonUsuario(personaEstudiar,columnaIdentificadorUsuario){
+const Estadisticas_1 = require("./Estadisticas");
+// import { estadisticas } from "./Estadisticas";
+function generarJsonUsuario(personaEstudiar, columnaIdentificadorUsuario) {
     /**
-     * @param {json} personaEstudiar 
+     * @param {json} personaEstudiar
      * @param {string} columnaIdentificadorUsuario
      * @returns {json}
      */
@@ -11,23 +13,23 @@ function generarJsonUsuario(personaEstudiar,columnaIdentificadorUsuario){
     jsonUsuario[personaEstudiar[columnaIdentificadorUsuario]] = [];
     return jsonUsuario;
 }
-function generarArrayUsuarios(poblacionEstudiar,columnaIdentificadorUsuario){
+function generarArrayUsuarios(poblacionEstudiar, columnaIdentificadorUsuario) {
     /**
-     * @param {array} poblacionEstudiar 
+     * @param {array} poblacionEstudiar
      * @param {string} columnaIdentificadorUsuario
-     * @returns {array}
+     * @returns {string}
      */
     let set = [];
-    poblacionEstudiar.forEach((value)=>{
-        set.push(value[columnaIdentificadorUsuario])
-    })
+    poblacionEstudiar.forEach((value) => {
+        set.push(value[columnaIdentificadorUsuario]);
+    });
     return set;
 }
-function seleccionarCaracterisiticasUsuario(personaEstudiar, caracteristicasPoblacion){
+function seleccionarCaracterisiticasUsuario(personaEstudiar, caracteristicasPoblacion) {
     /**
      * @param {json} personaEstudiar
      * @param {string[]} caracteristicasPoblacion
-     * @return {json[]} 
+     * @return {json[]}
      */
     let caracteristicaPersona = {};
     caracteristicasPoblacion.forEach(caracteristica => {
@@ -35,7 +37,7 @@ function seleccionarCaracterisiticasUsuario(personaEstudiar, caracteristicasPobl
     });
     return caracteristicaPersona;
 }
-function generarJsonConCaracteristicasPoblacion(poblacionEstudiar, columnaCaracteristicasPoblacion,columnaIdentificadorUsuario ){
+function generarJsonConCaracteristicasPoblacion(poblacionEstudiar, columnaCaracteristicasPoblacion, columnaIdentificadorUsuario) {
     /**
      * @param {array} poblacionEstudiar
      * @param {string[]} columnaCaracteristicasPoblacion
@@ -43,51 +45,54 @@ function generarJsonConCaracteristicasPoblacion(poblacionEstudiar, columnaCaract
      * @return {json}
      */
     let usuariosJson = {};
-    poblacionEstudiar.forEach((personaEstudiar)=>{
-        usuariosJson[personaEstudiar[columnaIdentificadorUsuario]] = seleccionarCaracterisiticasUsuario(personaEstudiar, columnaCaracteristicasPoblacion) 
+    poblacionEstudiar.forEach((personaEstudiar) => {
+        usuariosJson[personaEstudiar[columnaIdentificadorUsuario]] = seleccionarCaracterisiticasUsuario(personaEstudiar, columnaCaracteristicasPoblacion);
     });
     return usuariosJson;
 }
-function generarEstadisticasDescritivaPoblacion(poblacionEstudiar,columnascaracteristicasPoblacion){
-   /**
-    * @param {string[]} columnascaracteristicasPoblacion
-    * @param {array} poblacionEstudiar
-    * @returns {json[]}
-    */
-   let  jsonCaracteristicas = {};
-   columnascaracteristicasPoblacion.forEach((caracteristica)=>{
-        jsonCaracteristicas[caracteristica] = {};       
-        for(let formula in  estaditicas){
-            let numeros  = poblacionEstudiar.map(persona => persona[caracteristica]);
-            jsonCaracteristicas[caracteristica][formula] =  estaditicas[formula](numeros) ;   
+function generarEstadisticasDescritivaPoblacion(poblacionEstudiar, columnascaracteristicasPoblacion) {
+    /**
+     * @param {string[]} columnascaracteristicasPoblacion
+     * @param {array} poblacionEstudiar
+     * @returns {json[]}
+     */
+    let jsonCaracteristicas = {};
+    for (let tcaracteristica of columnascaracteristicasPoblacion) {
+        jsonCaracteristicas[tcaracteristica] = {};
+        for (let formula in Estadisticas_1.estadisticas) {
+            let numeros = poblacionEstudiar.map(tpersona => {
+                console.log(typeof (tcaracteristica), '%' + tcaracteristica + '%');
+                console.log('tpersona[tcaracteristica]', tpersona[tcaracteristica], 'caracteristica', tcaracteristica, 'tpersona', tpersona);
+                return parseInt(tpersona[tcaracteristica]);
+            });
+            console.log('numeros', numeros);
+            jsonCaracteristicas[tcaracteristica][formula] = Estadisticas_1.estadisticas[formula](numeros);
         }
-   });
-   return jsonCaracteristicas;
+    }
+    return jsonCaracteristicas;
 }
-
 class Poblacion {
-    constructor(poblacionEstudiar,columnaIdentificadorUsuario,columnascaracteristicasPoblacion){
+    constructor(poblacionEstudiar, columnaIdentificadorUsuario, columnascaracteristicasPoblacion) {
         /**
          * @param {string} columnaIdentificadorUsuario
          * @param {string[]} columnascaracteristicasPoblacion
          * @param {json[]} poblacionEstudiar
-         */   
-        this.estadisticasPoblacion = generarEstadisticasDescritivaPoblacion(poblacionEstudiar,columnascaracteristicasPoblacion);     
-        this.caracteristicasPoblacion =  generarJsonConCaracteristicasPoblacion(poblacionEstudiar, columnascaracteristicasPoblacion,columnaIdentificadorUsuario );
-        this.listadoPersonas = generarArrayUsuarios(poblacionEstudiar,columnaIdentificadorUsuario)
+         */
+        this.estadisticasPoblacion = generarEstadisticasDescritivaPoblacion(poblacionEstudiar, columnascaracteristicasPoblacion);
+        this.caracteristicasPoblacion = generarJsonConCaracteristicasPoblacion(poblacionEstudiar, columnascaracteristicasPoblacion, columnaIdentificadorUsuario);
+        this.listadoPersonas = generarArrayUsuarios(poblacionEstudiar, columnaIdentificadorUsuario);
     }
-    mostrarJsonConCaracteristicasPoblacion(){
+    mostrarJsonConCaracteristicasPoblacion() {
         /**
          * @return {json}
          */
-        return  this.caracteristicasPoblacion;
+        return this.caracteristicasPoblacion;
     }
-    mostrarEstadisticasCaracteristicasPoblacion(){
+    mostrarEstadisticasCaracteristicasPoblacion() {
         /**
          * @returns {json[]}
          */
         return this.estadisticasPoblacion;
     }
 }
-
-module.exports = Poblacion;
+exports.Poblacion = Poblacion;
