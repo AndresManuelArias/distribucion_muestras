@@ -36,15 +36,14 @@ function filtrarGrupos(datosPoblacion, opcionFiltrado) {
             }
         }
         // accion de prueba para cortar las combinaciones
-        console.log('coleccionarPersona.length ',coleccionarPersona.length , 'datosPoblacion.listadoPersonas.length ',datosPoblacion.listadoPersonas.length , 'limiteGruposCorrecto',limiteGruposCorrecto)
-        if (coleccionarPersona.length == datosPoblacion.listadoPersonas.length && limiteGruposCorrecto > 0) {
+        if (coleccionarPersona.length === datosPoblacion.listadoPersonas.length && limiteGruposCorrecto > 0) {
             conteoGruposcorrectos++;
             console.log('conteoGruposcorrectos', conteoGruposcorrectos);
-            if (conteoGruposcorrectos === limiteGruposCorrecto) {
+            if (conteoGruposcorrectos === opcionFiltrado.limiteGruposCorrecto) {
                 resultado = false;
             }
         }
-        // accion importante no borrar
+        // accion importante no borrar que permite generar los grupos
         if (coleccionarPersona.length === datosPoblacion.listadoPersonas.length || resultado === false) {
             coleccionarPersona = [];
         }
@@ -71,3 +70,25 @@ function generarGrupos(posibilidades, personasPorGrupo) {
     });
 }
 exports.generarGrupos = generarGrupos;
+function filtrarGrupo(datosPoblacion, opcionFiltrado) {
+    let porcentajesMaximoVarianza = opcionFiltrado.porcentajesMaximoVarianza;
+    let porcentajesMinimoVarianza = opcionFiltrado.porcentajesMinimoVarianza;
+    return (grupoAnalizar) => {
+        let resultado = true;
+        for (let caracteristica in datosPoblacion.estadisticasPoblacion) {
+            let habilidad = datosPoblacion.estadisticasPoblacion[caracteristica];
+            let coleccionPuntajes = [];
+            grupoAnalizar.forEach((personaAgregadas) => {
+                coleccionPuntajes.push(parseInt(datosPoblacion.caracteristicasPoblacion[personaAgregadas][caracteristica]));
+            });
+            let promedioGrupo = Estadisticas_1.estadisticas.promedio(coleccionPuntajes);
+            // console.log('promedioGrupo',promedioGrupo,'habilidad.promedio',habilidad.promedio,'coleccionPuntajes',coleccionPuntajes)
+            resultado = promedioGrupo >= habilidad.promedio - habilidad.varianza * porcentajesMinimoVarianza && promedioGrupo <= habilidad.promedio + habilidad.varianza * porcentajesMaximoVarianza; // trabajar con la varianza
+            if (resultado === false) {
+                break;
+            }
+            return resultado;
+        }
+    };
+}
+exports.filtrarGrupo = filtrarGrupo;

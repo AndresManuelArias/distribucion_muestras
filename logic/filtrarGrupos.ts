@@ -81,5 +81,26 @@ function generarGrupos(posibilidades:string[][],personasPorGrupo:number):string[
         return  grupos
     })
 }
-export { filtrarGrupos,generarGrupos};
+
+function filtrarGrupo(datosPoblacion:DatosPoblacion,opcionFiltrado?:opcionFiltrado):(persona:string[])=>boolean{
+    let porcentajesMaximoVarianza:number=opcionFiltrado.porcentajesMaximoVarianza;
+    let porcentajesMinimoVarianza:number=opcionFiltrado.porcentajesMinimoVarianza;
+
+    return (grupoAnalizar:string[]):boolean =>{
+        let resultado:boolean = true;
+        for(let caracteristica in datosPoblacion.estadisticasPoblacion){
+            let habilidad:tipoEstadistica =datosPoblacion.estadisticasPoblacion[caracteristica]
+            let coleccionPuntajes:number[]=[];
+            grupoAnalizar.forEach((personaAgregadas:string)=>{
+                coleccionPuntajes.push(parseInt(datosPoblacion.caracteristicasPoblacion[personaAgregadas][caracteristica]))
+            })
+            let promedioGrupo = estadisticas.promedio(coleccionPuntajes)
+            // console.log('promedioGrupo',promedioGrupo,'habilidad.promedio',habilidad.promedio,'coleccionPuntajes',coleccionPuntajes)
+            resultado =      promedioGrupo >= habilidad.promedio - habilidad.varianza*porcentajesMinimoVarianza  && promedioGrupo <= habilidad.promedio +habilidad.varianza*porcentajesMaximoVarianza;// trabajar con la varianza
+            if(resultado === false){ break}
+            return resultado
+        }
+    }
+}
+export { filtrarGrupos,generarGrupos,filtrarGrupo};
 
