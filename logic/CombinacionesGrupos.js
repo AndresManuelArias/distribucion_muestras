@@ -1,6 +1,6 @@
 'use strict';
 //@ts-check
-const estaditicas = require('./estadisticas.js');
+const estaditicas = require('./Estadisticas.js');
 var  permutate  = require ( 'enum-permutate' ) ; 
 function generarNumerosAzar(cantidad){
     /**
@@ -157,7 +157,7 @@ function seleccionarGrupos(estadisticaPoblacion,formacionGrupos,caracteristicaPo
                     grupo = [] ;         
                 }
             }
-            let promediosGrupos = grupos.map( grupo => estaditicas.promedio(grupo));
+            let promediosGrupos = grupos.map( grupo => estaditicas.estadisticas.promedio(grupo));
             // console.log('promediosGrupos',promediosGrupos)
             // console.log('diferenciaPasar',diferenciaPasar)
             // console.log('requisitoPasar',requisitoPasar)

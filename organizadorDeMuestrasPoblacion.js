@@ -18,7 +18,7 @@ csvdata.load(filePath, {
 }).then((poblacionEstudiar)=>{
     console.log(poblacionEstudiar);
     let formacionGrupos = new FormacionGrupos({numeroPersonasPorMuestra:4},poblacionEstudiar.length);
-    let poblacion = new Poblacion(poblacionEstudiar,'nombre',
+    let poblacion = new Poblacion.Poblacion(poblacionEstudiar,'nombre',
         ['INTELIGENCIA FÍSICA Y KINESTÉTICA ',
         'INTELIGENCIA INTRAPERSONAL ',
         'INTELIGENCIA LÓGICO MATEMATICA ',
@@ -34,9 +34,10 @@ csvdata.load(filePath, {
     estadisticaCaracteristicasPoblacion = poblacion.mostrarEstadisticasCaracteristicasPoblacion(),
     cantidadGruposYpersonas  = formacionGrupos.mostrarCantidadGruposYPersonas();
    console.log('poblacionEstudiarJson',poblacionEstudiarJson);
+   console.log('estadisticaCaracteristicasPoblacion',estadisticaCaracteristicasPoblacion);
 
     let combinacionGrupos = new CombinacionGrupos(poblacionEstudiarJson,estadisticaCaracteristicasPoblacion);
-    let posibilidadesdeGrupos  = combinacionGrupos.generarCombinacionesDeMuestrasArbol(cantidadGruposYpersonas,0);// se genera varios arrays con distintas combinaciones, pero mostrando las mas optimas
+    let posibilidadesdeGrupos  = combinacionGrupos.generarCombinacionesDeMuestrasArbol(cantidadGruposYpersonas,500);// se genera varios arrays con distintas combinaciones, pero mostrando las mas optimas
     // es neceario crear una funcion que clasifique los grupos generados cuando se utiliza un metodo de permutacion tradicional
     console.log('cantidadGruposYpersonas',cantidadGruposYpersonas);
     console.log('combinaciones',posibilidadesdeGrupos.length,posibilidadesdeGrupos);
@@ -50,5 +51,5 @@ csvdata.load(filePath, {
             console.log('personas',personas.length);
         });
     })
-    fs.writeFileSync('baseData/gruposOrganizados.json', JSON.stringify(formacionGrupoDePosibilidades), 'utf8');        
+    fs.writeFileSync('baseData/gruposOrganizados.json', JSON.stringify(formacionGrupoDePosibilidades), 'utf8');
 });

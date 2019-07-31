@@ -1,5 +1,7 @@
 // import combinaciones = require('./combinaciones');
 // import  csvdata = require('csvdata');
+// este es el ultimo que se elaboro generando todas posiblidades las azar de grupo
+// es importante seprara el codigo de la libreria del ejecutable
 import fs = require('fs');
 // var csvdata = require('csvdata'),
  import  {Poblacion}  from './Poblacion';
@@ -23,9 +25,10 @@ var columnas:string[] =  ['INTELIGENCIA FÍSICA Y KINESTÉTICA',
 'INTELIGENCIA MUSICAL'];
 let datosPoblacion = new Poblacion(poblacionEstudiar,'nombre',columnas);
 console.log('poblacion',datosPoblacion)
-let filtrado= filtrarGrupo(datosPoblacion,{porcentajesMaximoVarianza:0,porcentajesMinimoVarianza:0})
+let filtrado= filtrarGrupo(datosPoblacion,{porcentajesMaximoVarianza:0.03,porcentajesMinimoVarianza:0.03})
 
-let    resultado=generatorTeam(datosPoblacion.listadoPersonas,{ personasPorGrupo:4,criterioFiltrar:filtrado,totalPersonas:datosPoblacion.listadoPersonas.length})
+let    resultado=generatorTeam(datosPoblacion.listadoPersonas,{ personasPorGrupo:4,criterioFiltrar:filtrado,totalPosibilidades:5})
+console.log('resultado',resultado)
 
 // let numeroPersonasPorgrupo:number = 4
 // let filtrar =  filtrarGrupos(datosPoblacion,{personaPorGrupo:numeroPersonasPorgrupo,porcentajesMaximoVarianza:0,porcentajesMinimoVarianza:0,minimoPersonasComenzarAnalizar:0.6,limiteGruposCorrecto:1}) ;

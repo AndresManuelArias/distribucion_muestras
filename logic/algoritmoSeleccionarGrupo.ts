@@ -45,7 +45,7 @@ var comb = function* (array, count) {
 // }
 type option = {
     personasPorGrupo:number,
-    totalPersonas?:number,
+    totalPosibilidades?:number,
     criterioFiltrar:(people:string[])=>boolean
 }
 function generatorTeam(peoples:string[],option:option):string[][][]{
@@ -70,7 +70,7 @@ function generatorTeam(peoples:string[],option:option):string[][][]{
             return [[item]]
         }
         console.log('coleccion terminando', coleccion);
-        if(option.totalPersonas && coleccion[0].length > 0){if( coleccion[0].reduce((a,b )=> a.concat(b)).length === option.totalPersonas) break}
+        if(option.totalPosibilidades && coleccion.length >= option.totalPosibilidades){ break}
 
     }
     return coleccion
