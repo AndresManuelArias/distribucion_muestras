@@ -15,7 +15,7 @@
         }
     },
     "include": [
-       "distribucionGrupos/*", "logic/*", "test/test.js", "test/pruebaDistribucionGrupos.js"
+       "distribucionGrupos/*", "logic/*", "test/test.js", "test/pruebaDistribucionGrupos.js", "test/generarGrupos.ts", "test/generarGrupos.js"
     ],
     "exclude": [
         "node_modules",

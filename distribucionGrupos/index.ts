@@ -1,7 +1,7 @@
 // organizar las personas del mejor al peor
 // escoger la cantidad de grupo que se van a hacer
 // la primer grupo escoge hasta legar al ultimo, 
-// cuando llega al ultimo el ultimo comienza de primeras invirtiendo el orden
+// cuando llega al ultimo, el ultimo comienza de primeras invirtiendo el orden
 // hacer este proceso hasta que no se pueda escoger a alguien mas 
 const R = require('ramda');
 
@@ -32,13 +32,13 @@ export function escogerGrupos(cantidadGrupo:number,personas:Personas[]):any{
     for(let creando = 1;creando <= cantidadGrupo;creando++ ){
         grupos.set(creando,[])
     }
-    console.log("comienso grupos",grupos)
+    console.log("comienzo grupos",grupos)
     do{
-        for(var comienso:number = 1;comienso <= cantidadGrupo; comienso++ ){
-            grupos.get(comienso).push(personas.shift()) 
+        for(var comienzo:number = 1;comienzo <= cantidadGrupo; comienzo++ ){
+            grupos.get(comienzo).push(personas.shift()) 
         }
-        console.log('comienso',comienso)
-        for(let finalizar:number = comienso-1;finalizar >= 1; finalizar-- ){
+        console.log('comienzo',comienzo)
+        for(let finalizar:number = comienzo-1;finalizar >= 1; finalizar-- ){
             console.log('finalizar',finalizar)
             
             grupos.get(finalizar).push(personas.shift())            
