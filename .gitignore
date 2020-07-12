@@ -1,0 +1,10 @@
+.vscode/
+yarn.lock
+.jshintrc
+.git/
+node_modules/
+public/empresas.html.zip
+test/
+package-lock.json
+baseData/
+yarn-error.log
